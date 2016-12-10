@@ -8,6 +8,8 @@ A cross platform CLI downloader tool written in python 3
 
 3- Install urllib `pip install urllib`
 
+4- Install colorama `pip install colorama`
+
 After the installation, open terminal at the root folder--
 
 Run `python getit.py` to download from CLI.

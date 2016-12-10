@@ -107,6 +107,8 @@ def nameAmend(name):
     name = '_'.join(name)
     return name
 
+# ================================Path Check=========================================
+
 def pathCheck(path):
     if not os.path.exists(path):
         usage()
@@ -157,11 +159,16 @@ for opt, arg in opts:
         usage()
         sys.exit(2)
 if url == '':
-    url = input("Enter the Download-Url\n")
+    print(Fore.GREEN + "? " + Style.RESET_ALL + "Enter the Download-Url : ")
+    url = input()
 if name == 'default':
-    name = input("Enter the name of the File with the extension\n")
+    print(Fore.GREEN + "? " + Style.RESET_ALL + "File Name with extension : " + Fore.YELLOW + "(default)" + Style.RESET_ALL)
+    name = input()
+    if name == '':
+        name = 'default'
 if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
-    path = input("Enter the path to store the file\n")
+    print(Fore.GREEN + "? " + Style.RESET_ALL + "File Path : "  + Fore.YELLOW + "(" + path + ")" + Style.RESET_ALL)
+    path = input()
     if path == '':
         path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
     path = pathCheck(path)
@@ -169,10 +176,11 @@ if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
 # ================================Download the file======================================
 try:
     name = nameAmend(name)
-    print("Downloading starts...\n")
+    print("Collecting "+ name)
+    print("\tDownloading... ")
     urlretrieve(url, path+name, reporthook)
     print("\n")
-    print("Download completed..!!\n")
+    print("Successfully download " + name)
 except Exception as e:
     print(Fore.RED + str(e))
 
