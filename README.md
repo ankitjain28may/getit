@@ -14,7 +14,7 @@ Run `python getit.py` to download from CLI.
 
 OR
 
-Download the exe file of [getit](https://github.com/ankitjain28may/getit/tree/master/dist/getit.exe) and put its path in the environment variable to directly use it from CLI
+Download the exe file from the dist folder [getit](https://github.com/ankitjain28may/getit/tree/master/dist) and put its path in the environment variable to directly use it from CLI
 
 ##Usage from CLI
 
