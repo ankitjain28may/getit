@@ -1,6 +1,7 @@
 from urllib.request import urlretrieve
 from getopt import GetoptError, getopt
-import sys
+import sys, os
+from getpass import getuser
 from time import time
 from colorama import Fore, Style
 from colorama import init
@@ -13,6 +14,7 @@ def usage():
     usage = """
     -h --help                 Print This
     -d --url                  Download Url
+    -p --path                 Path to store the file
     -f --filename             filename with extension
     """
     print(usage)
@@ -105,6 +107,14 @@ def nameAmend(name):
     name = '_'.join(name)
     return name
 
+def pathCheck(path):
+    if not os.path.exists(path):
+        usage()
+        print(Fore.RED + str("Path is not found"))
+        sys.exit(2)
+    elif path[len(path)-1] != '\\':
+        path+='\\'
+    return path
 # =====================================Globar Variables=========================================
 
 argv = sys.argv[1:]
@@ -118,12 +128,14 @@ transferData = 0
 totalsize = 0
 speedType = ''
 sizeType = ''
-
+path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
+if not os.path.exists(path):
+    os.mkdir(path)
 
 # ================================Command Line Input=====================================
 
 try:
-    opts, args = getopt(argv, "hd:f:", ["help", "url=", "filename="])
+    opts, args = getopt(argv, "hd:p:f:", ["help", "url=", "path=",  "filename="])
 except GetoptError as err:
     usage()
     print(Fore.RED + str(err))
@@ -136,6 +148,9 @@ for opt, arg in opts:
         sys.exit()
     elif opt in ("-d", "--url"):
         url = arg
+    elif opt in ("-p", "--path"):
+        path = arg
+        path = pathCheck(path)
     elif opt in ("-f", "--filename"):
         name = arg
     else:
@@ -145,14 +160,17 @@ if url == '':
     url = input("Enter the Download-Url\n")
 if name == 'default':
     name = input("Enter the name of the File with the extension\n")
+if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
+    path = input("Enter the path to store the file\n")
+    path = pathCheck(path)
 
 # ================================Download the file======================================
 try:
     name = nameAmend(name)
     print("Downloading starts...\n")
-    urlretrieve(url, name, reporthook)
+    urlretrieve(url, path+name, reporthook)
     print("\n")
     print("Download completed..!!\n")
 except Exception as e:
-    print(Fore.RED + e)
+    print(Fore.RED + str(e))
 

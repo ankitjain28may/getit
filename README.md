@@ -1,5 +1,5 @@
 # getit
-A cross platform CLI downloader tool written in python
+A cross platform CLI downloader tool written in python 3
 
 ##Installations
 1- Install python 3.5 from [Python.org](https://www.python.org)
@@ -14,15 +14,22 @@ Run `python getit.py` to download from CLI.
 
 OR
 
-Download the exe file from the dist folder [getit](https://github.com/ankitjain28may/getit/tree/master/dist) and put its path in the environment variable to directly use it from CLI
+Download the exe file from the dist folder [getit.exe](https://github.com/ankitjain28may/getit/tree/master/dist) and put its path in the environment variable to directly use it from CLI
 
 ##Usage from CLI
 
-` getit -d <download url> -f <filename with extension> `
+` getit -d <download url> -p <path> -f <filename with extension> `
 
 ` getit -h <help> `
 
-Note : File path is same as the directory Path
+OR
+
+` python getit.py -d <download url> -p <path> -f <filename with extension> `
+
+` python getit.py -h <help> `
+
+
+Note : File is downloaded in the Downloads/getit/ folder by default
 
 ##License
 
