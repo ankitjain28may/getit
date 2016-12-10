@@ -1,7 +1,7 @@
-import urllib.request
-import requests
-import sys, getopt
-import time
+from urllib.request import urlretrieve
+from getopt import GetoptError, getopt
+import sys
+from time import time
 from colorama import Fore, Style
 from colorama import init
 init()
@@ -42,16 +42,16 @@ def progressBar(length):
 def transferRate(blocksize):
     try:
         global speed, rate, transferData
-        interval = time.time() - rate
+        interval = time() - rate
         if rate == 0:
             transferData += blocksize
-            rate = time.time()
+            rate = time()
         elif interval == 0 or interval < 1:
             transferData += blocksize
         else:
             speed = float(transferData/(interval))
             transferData = 0
-            rate = time.time()
+            rate = time()
         return speed
     except Exception:
         pass
@@ -123,8 +123,8 @@ sizeType = ''
 # ================================Command Line Input=====================================
 
 try:
-    opts, args = getopt.getopt(argv, "hd:f:", ["help", "url=", "filename="])
-except getopt.GetoptError as err:
+    opts, args = getopt(argv, "hd:f:", ["help", "url=", "filename="])
+except GetoptError as err:
     usage()
     print(Fore.RED + str(err))
     sys.exit(2)
@@ -150,7 +150,7 @@ if name == 'default':
 try:
     name = nameAmend(name)
     print("Downloading starts...\n")
-    urllib.request.urlretrieve(url, name, reporthook)
+    urlretrieve(url, name, reporthook)
     print("\n")
     print("Download completed..!!\n")
 except Exception as e:
