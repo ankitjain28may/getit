@@ -77,10 +77,13 @@ def dataSize(block):
 def reporthook(blocknum, blocksize, total):
     size = 0
     currentType = ''
-    desc = int(blocknum*blocksize)
-    length = int((desc/total)*50)
-    percentage = float(desc/total*100)
+    length = 50
+    percentage = 100.00
     global speed, speedType, totalsize, sizeType
+    desc = int(blocknum*blocksize)
+    if total > 0:
+        length = int((desc/total)*50)
+        percentage = float(desc/total*100)
     speed = transferRate(blocksize)
     speedShow, speedType = dataSize(speed)
     if totalsize == 0:
@@ -91,6 +94,8 @@ def reporthook(blocknum, blocksize, total):
     if percentage > 100:
         percentage = 100
         size = totalsize
+    elif percentage == 100 and total < 0:
+        totalsize = size
     p1 = "\r %.2f %% " %(percentage)
     p2 = "%s " %(progress)
     p3 = "%.2f %s / %.2f %s %.2f %s/sec " %(size, currentType, totalsize, sizeType, speedShow, speedType)
@@ -130,6 +135,7 @@ transferData = 0
 totalsize = 0
 speedType = ''
 sizeType = ''
+flag = 0
 path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
 if not os.path.exists(path):
     os.mkdir(path)
