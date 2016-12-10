@@ -162,6 +162,8 @@ if name == 'default':
     name = input("Enter the name of the File with the extension\n")
 if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
     path = input("Enter the path to store the file\n")
+    if path == '':
+        path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
     path = pathCheck(path)
 
 # ================================Download the file======================================
