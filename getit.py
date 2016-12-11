@@ -11,15 +11,26 @@ init()
 
 # ================================Error Function==========================
 def usage():
-    print(Fore.YELLOW + "\n\t==========Invalid Input=============")
-    usage = """
-    -h --help                 Print This
-    -d --url                  Download Url
-    -p --path                 Path to store the file
-    -f --filename             filename with extension
+    logoName = """
+
+    ██████   ██████   ███████  ██   ███████       █████    █     █
+    █        █           █     ██      █          █    █    █   █
+    █        █           █     ██      █          █    █     █ █
+    █  ███   ████        █     ██      █          █████       █
+    █    █   █           █     ██      █          █           █
+    █    █   █           █     ██      █          █           █
+    ██████   ███████     █     ██      █     ██   █           █
+
     """
-    print(usage)
-    print("\n\t===============End==================")
+    usage = """
+    -h, --help                 Print This
+    -d, --url                  Download Url
+    -p, --path                 Path to store the file
+    -f, --filename             filename with extension
+
+    """
+    print(Fore.CYAN + logoName + Fore.YELLOW +
+          "\b\b\bOptions: " + Fore.GREEN + usage)
 
 
 # ================================Progress Bar Function===================
@@ -27,11 +38,11 @@ def usage():
 def progressBar(length):
     show = ''
     for i in range(length):
-        show += "#"
-    for j in range(50-length):
+        show += "█"
+    for j in range(30-length):
         show += "-"
-    show = "["+show+"]"
-    if length != 50:
+    show = "|"+show+"|"
+    if length != 30:
         if length % 3 == 0:
             show = "/ " + show
         elif length % 3 == 1:
@@ -81,12 +92,12 @@ def dataSize(block):
 def reporthook(blocknum, blocksize, total):
     size = 0
     currentType = ''
-    length = 50
+    length = 30
     percentage = 100.00
     global speed, speedType, totalsize, sizeType
     desc = int(blocknum*blocksize)
     if total > 0:
-        length = int((desc/total)*50)
+        length = int((desc/total)*30)
         percentage = float(desc/total*100)
     speed = transferRate(blocksize)
     speedShow, speedType = dataSize(speed)
@@ -100,13 +111,13 @@ def reporthook(blocknum, blocksize, total):
         size = totalsize
     elif percentage == 100 and total < 0:
         totalsize = size
-    p1 = "\r\r %.2f %%" % (percentage)
+    p1 = " %.2f %%" % (percentage)
     p2 = " %s" % (progress)
     p3 = " %.2f %s / %.2f %s %.2f %s/s   " % (
         size, currentType, totalsize, sizeType, speedShow, speedType)
-    sys.stderr.write(
-        p1 + Fore.GREEN + p2 + Style.RESET_ALL + p3 + Style.RESET_ALL)
-    sys.stdout.flush()
+    sys.stderr.write("\r" +
+                     p1 + Fore.GREEN + p2 + Style.RESET_ALL + p3 + Style.RESET_ALL)
+    sys.stderr.flush()
 
 # ================================Space separated name amendment==========
 
