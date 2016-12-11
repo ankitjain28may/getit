@@ -1,6 +1,7 @@
 from urllib.request import urlretrieve
 from getopt import GetoptError, getopt
-import sys, os
+import sys
+import os
 from getpass import getuser
 from time import time
 from colorama import Fore, Style
@@ -8,7 +9,7 @@ from colorama import init
 init()
 
 
-# ================================Error Function=========================================
+# ================================Error Function==========================
 def usage():
     print(Fore.YELLOW + "\n\t==========Invalid Input=============")
     usage = """
@@ -21,16 +22,16 @@ def usage():
     print("\n\t===============End==================")
 
 
-# ================================Progress Bar Function=========================================
+# ================================Progress Bar Function===================
 
 def progressBar(length):
     show = ''
     for i in range(length):
-        show+="#"
+        show += "#"
     for j in range(50-length):
-        show+="-"
+        show += "-"
     show = "["+show+"]"
-    if length!=50:
+    if length != 50:
         if length % 3 == 0:
             show = "/ " + show
         elif length % 3 == 1:
@@ -39,7 +40,8 @@ def progressBar(length):
             show = "\ " + show
     return show
 
-# ================================Transfer Speed Function=========================================
+# ================================Transfer Speed Function=================
+
 
 def transferRate(blocksize):
     try:
@@ -58,7 +60,8 @@ def transferRate(blocksize):
     except Exception:
         pass
 
-# ================================Type of Data=========================================
+# ================================Type of Data============================
+
 
 def dataSize(block):
     if block/1024 < 1000:
@@ -72,7 +75,8 @@ def dataSize(block):
         sizeType = 'GB'
     return block, sizeType
 
-# ================================Main Integrating function=========================================
+# ================================Main Integrating function===============
+
 
 def reporthook(blocknum, blocksize, total):
     size = 0
@@ -96,23 +100,24 @@ def reporthook(blocknum, blocksize, total):
         size = totalsize
     elif percentage == 100 and total < 0:
         totalsize = size
-    p1 = "\r %.2f %% " %(percentage)
-    p2 = "%s " %(progress)
-    p3 = "%.2f %s / %.2f %s %.2f %s/sec " %(size, currentType, totalsize, sizeType, speedShow, speedType)
-    sys.stderr.write(p1 + Fore.GREEN + p2)
-    sys.stderr.write(Style.RESET_ALL)
-    sys.stderr.write(p3)
-    sys.stderr.write(Style.RESET_ALL)
+    p1 = "\r\r %.2f %%" % (percentage)
+    p2 = " %s" % (progress)
+    p3 = " %.2f %s / %.2f %s %.2f %s/s   " % (
+        size, currentType, totalsize, sizeType, speedShow, speedType)
+    sys.stderr.write(
+        p1 + Fore.GREEN + p2 + Style.RESET_ALL + p3 + Style.RESET_ALL)
     sys.stdout.flush()
 
-# ================================Space separated name amendment=========================================
+# ================================Space separated name amendment==========
+
 
 def nameAmend(name):
     name = name.split(' ')
     name = '_'.join(name)
     return name
 
-# ================================Path Check=========================================
+# ================================Path Check==============================
+
 
 def pathCheck(path):
     if not os.path.exists(path):
@@ -120,9 +125,9 @@ def pathCheck(path):
         print(Fore.RED + str("Path is not found"))
         sys.exit(2)
     elif path[len(path)-1] != '\\':
-        path+='\\'
+        path += '\\'
     return path
-# =====================================Globar Variables=========================================
+# =====================================Globar Variables===================
 
 argv = sys.argv[1:]
 url = ''
@@ -140,16 +145,17 @@ path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
 if not os.path.exists(path):
     os.mkdir(path)
 
-# ================================Command Line Input=====================================
+# ================================Command Line Input======================
 
 try:
-    opts, args = getopt(argv, "hd:p:f:", ["help", "url=", "path=",  "filename="])
+    opts, args = getopt(
+        argv, "hd:p:f:", ["help", "url=", "path=",  "filename="])
 except GetoptError as err:
     usage()
     print(Fore.RED + str(err))
     sys.exit(2)
 
-# ================================Read the CLI Input=====================================
+# ================================Read the CLI Input======================
 for opt, arg in opts:
     if opt in ("-h", "--help"):
         usage()
@@ -165,28 +171,37 @@ for opt, arg in opts:
         usage()
         sys.exit(2)
 if url == '':
-    print(Fore.GREEN + "? " + Style.RESET_ALL + "Enter the Download-Url : ")
+    sys.stderr.write(
+        Fore.GREEN + "? " + Style.RESET_ALL + "Enter the Download-Url : ")
     url = input()
+    print(Fore.GREEN + "? " + Style.RESET_ALL +
+          "URL : " + Fore.CYAN + url + Style.RESET_ALL)
 if name == 'default':
-    print(Fore.GREEN + "? " + Style.RESET_ALL + "File Name with extension : " + Fore.YELLOW + "(default)" + Style.RESET_ALL)
+    sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL +
+                     "File Name with extension : " + Fore.YELLOW + "(default) " + Style.RESET_ALL)
     name = input()
     if name == '':
         name = 'default'
+    print(Fore.GREEN + "? " + Style.RESET_ALL +
+          "Filename : " + Fore.CYAN + name + Style.RESET_ALL)
 if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
-    print(Fore.GREEN + "? " + Style.RESET_ALL + "File Path : "  + Fore.YELLOW + "(" + path + ")" + Style.RESET_ALL)
+    sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL +
+                     "File Path : " + Fore.YELLOW + "(" + path + ") " + Style.RESET_ALL)
     path = input()
     if path == '':
         path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
+    print(Fore.GREEN + "? " + Style.RESET_ALL +
+          "Path : " + Fore.CYAN + path + Style.RESET_ALL)
     path = pathCheck(path)
 
-# ================================Download the file======================================
+
+# ================================Download the file=======================
 try:
     name = nameAmend(name)
-    print("Collecting "+ name)
+    print("Collecting " + name)
     print("\tDownloading... ")
     urlretrieve(url, path+name, reporthook)
     print("\n")
     print("Successfully download " + name)
 except Exception as e:
     print(Fore.RED + str(e))
-
