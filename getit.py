@@ -1,11 +1,12 @@
-from urllib.request import urlretrieve
+from urllib.request import urlopen
 from getopt import GetoptError, getopt
 import sys
-import os
+import subprocess
 from getpass import getuser
 from time import time
 from colorama import Fore, Style
 from colorama import init
+import configparser
 init()
 
 
@@ -38,7 +39,7 @@ def usage():
 def progressBar(length):
     show = ''
     for i in range(length):
-        show += "█"
+        show += "#"
     for j in range(30-length):
         show += "-"
     show = "|"+show+"|"
@@ -128,19 +129,37 @@ def nameAmend(name):
     return name
 
 # ================================Path Check==============================
-
+def Commands(path, cmd, callback=False):
+    try:
+        path = cmd + " " + path
+        output, err = subprocess.Popen(path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
+        if callback != False:
+            if err!=None:
+                err = err.decode('utf-8')
+            if output!=None:
+                output = output.decode('utf-8')
+            return output, err
+    except Exception as e:
+        usage()
+        print(Fore.RED + str(e))
+        sys.exit(2)
 
 def pathCheck(path):
-    if not os.path.exists(path):
+    output, err = Commands(path, 'cd', True)
+    if err!= '':
         usage()
-        print(Fore.RED + str("Path is not found"))
+        print(Fore.RED + err)
         sys.exit(2)
     elif path[len(path)-1] != '\\':
         path += '\\'
     return path
+
+
 # =====================================Globar Variables===================
 
-argv = sys.argv[1:]
+argv = sys.argv
+soft = argv[0].split('.')[-1]
+argv = argv[1:]
 url = ''
 name = 'default'
 opts = ''
@@ -152,9 +171,13 @@ totalsize = 0
 speedType = ''
 sizeType = ''
 flag = 0
-path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
-if not os.path.exists(path):
-    os.mkdir(path)
+conf = ''
+err = ''
+path = "C:\\Users\\" + getuser() + "\\Downloads\\getit\\"
+output, err = Commands(path, 'cd', True)
+if err !='':
+    Commands(path, 'mkdir')
+
 
 # ================================Command Line Input======================
 
@@ -211,8 +234,48 @@ try:
     name = nameAmend(name)
     print("Collecting " + name)
     print("\tDownloading... ")
-    urlretrieve(url, path+name, reporthook)
+
+    with open(path+name, 'wb') as out_file:
+        with urlopen(url) as fp:
+            x = int(fp.info()['Content-Length'])
+            i=1
+            block_size = 1024 * 8
+            while True:
+                block = fp.read(block_size)
+                reporthook(i,block_size,x)
+                i+=1
+                if not block:
+                    break
+                out_file.write(block)
+
+    # urlretrieve(url, path+name, reporthook)
     print("\n")
     print("Successfully download " + name)
+    config = configparser.ConfigParser()
+    if soft == "py":
+        conf = 'config.cfg'
+    else:
+        conf, err = Commands('', 'which', True)
+        if err!='':
+            conf, err = Commands('', 'where getit.exe', True)
+            conf = conf.split('\\')
+            conf = conf[:-2]
+            conf = '\\'.join(conf)
+            conf+='\\config.cfg'
+        else:
+            conf, err = Commands('', 'which getit', True)
+            conf = conf.split('\\')
+            conf = conf[:-2]
+            conf = '\\'.join(conf)
+            conf+='\\config.cfg'
+    try:
+        sys.stdout.write("\a")
+    except:
+        pass
+    config.read(conf)
+    if config.getboolean('config-default', 'folder_open_on_download_complete'):
+        Commands(path, 'start')
+    if config.getboolean('config-default', 'file_open_on_download_complete'):
+        Commands(path+name, 'start')
 except Exception as e:
     print(Fore.RED + str(e))
