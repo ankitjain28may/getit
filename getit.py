@@ -9,116 +9,125 @@ from colorama import init
 import configparser
 init()
 
+class getit:
+    def __init__(self, total):
 
-# ================================Error Function==========================
-def usage():
-    logoName = """
-
-    ██████   ██████   ███████  ██   ███████       █████    █     █
-    █        █           █     ██      █          █    █    █   █
-    █        █           █     ██      █          █    █     █ █
-    █  ███   ████        █     ██      █          █████       █
-    █    █   █           █     ██      █          █           █
-    █    █   █           █     ██      █          █           █
-    ██████   ███████     █     ██      █     ██   █           █
-
-    """
-    usage = """
-    -h, --help                 Print This
-    -d, --url                  Download Url
-    -p, --path                 Path to store the file
-    -f, --filename             filename with extension
-
-    """
-    print(Fore.CYAN + logoName + Fore.YELLOW +
-          "\b\b\bOptions: " + Fore.GREEN + usage)
+        self.rate = 0
+        self.speed = 0
+        self.transferData = 0
+        self.total = total
+        self.totalsize, self.sizeType = self.dataSize(total)
+        self.speedType = ''
+        self.flag = 0
 
 
-# ================================Progress Bar Function===================
+    # ================================Error Function==========================
+    def usage(self):
+        logoName = """
 
-def progressBar(length):
-    show = ''
-    for i in range(length):
-        show += "#"
-    for j in range(30-length):
-        show += "-"
-    show = "|"+show+"|"
-    if length != 30:
-        if length % 3 == 0:
-            show = "/ " + show
-        elif length % 3 == 1:
-            show = "- " + show
-        else:
-            show = "\ " + show
-    return show
+        ██████   ██████   ███████  ██   ███████       █████    █     █
+        █        █           █     ██      █          █    █    █   █
+        █        █           █     ██      █          █    █     █ █
+        █  ███   ████        █     ██      █          █████       █
+        █    █   █           █     ██      █          █           █
+        █    █   █           █     ██      █          █           █
+        ██████   ███████     █     ██      █     ██   █           █
 
-# ================================Transfer Speed Function=================
+        """
+        usage = """
+        -h, --help                 Print This
+        -d, --url                  Download Url
+        -p, --path                 Path to store the file
+        -f, --filename             filename with extension
 
-
-def transferRate(blocksize):
-    try:
-        global speed, rate, transferData
-        interval = time() - rate
-        if rate == 0:
-            transferData += blocksize
-            rate = time()
-        elif interval == 0 or interval < 1:
-            transferData += blocksize
-        else:
-            speed = float(transferData/(interval))
-            transferData = 0
-            rate = time()
-        return speed
-    except Exception:
-        pass
-
-# ================================Type of Data============================
+        """
+        print(Fore.CYAN + logoName + Fore.YELLOW +
+              "\b\b\bOptions: " + Fore.GREEN + usage)
 
 
-def dataSize(block):
-    if block/1024 < 1000:
-        block = block/1024
-        sizeType = 'KB'
-    elif block/1048576 < 1000:
-        block = block/1048576
-        sizeType = 'MB'
-    elif block/1073741824 < 1000:
-        block = block/1073741824
-        sizeType = 'GB'
-    return block, sizeType
+    # ================================Progress Bar Function===================
 
-# ================================Main Integrating function===============
+    def progressBar(self,length):
+        show = ''
+        for i in range(length):
+            show += "#"
+        for j in range(30-length):
+            show += "-"
+        show = "|"+show+"|"
+        if length != 30:
+            if length % 3 == 0:
+                show = "/ " + show
+            elif length % 3 == 1:
+                show = "- " + show
+            else:
+                show = "\ " + show
+        return show
+
+    # ================================Transfer Speed Function=================
 
 
-def reporthook(blocknum, blocksize, total):
-    size = 0
-    currentType = ''
-    length = 30
-    percentage = 100.00
-    global speed, speedType, totalsize, sizeType
-    desc = int(blocknum*blocksize)
-    if total > 0:
-        length = int((desc/total)*30)
-        percentage = float(desc/total*100)
-    speed = transferRate(blocksize)
-    speedShow, speedType = dataSize(speed)
-    if totalsize == 0:
-        totalsize, sizeType = dataSize(total)
-    size, currentType = dataSize(desc)
-    progress = progressBar(length)
+    def transferRate(self,blocksize):
+        try:
+            interval = time() - self.rate
+            if self.rate == 0:
+                self.transferData += blocksize
+                self.rate = time()
+            elif interval == 0 or interval < 1:
+                self.transferData += blocksize
+            else:
+                self.speed = float(self.transferData/(interval))
+                self.transferData = 0
+                self.rate = time()
+            return self.speed
+        except Exception:
+            pass
 
-    if percentage > 100:
-        percentage = 100
-        size = totalsize
-    elif percentage == 100 and total < 0:
-        totalsize = size
-    p1 = " %.2f %%" % (percentage)
-    p2 = " %s" % (progress)
-    p3 = " %.2f %s / %.2f %s %.2f %s/s   " % (
-        size, currentType, totalsize, sizeType, speedShow, speedType)
-    sys.stderr.write("\r" +
-                     p1 + Fore.GREEN + p2 + Style.RESET_ALL + p3 + Style.RESET_ALL)
-    sys.stderr.flush()
+    # ================================Type of Data============================
+
+
+    def dataSize(self,block):
+        if block/1024 < 1000:
+            block = block/1024
+            sizeType = 'KB'
+        elif block/1048576 < 1000:
+            block = block/1048576
+            sizeType = 'MB'
+        elif block/1073741824 < 1000:
+            block = block/1073741824
+            sizeType = 'GB'
+        return block, sizeType
+
+    # ================================Main Integrating function===============
+
+
+    def reporthook(self,blocknum, blocksize):
+        size = 0
+        currentType = ''
+        length = 30
+        percentage = 100.00
+        desc = int(blocknum*blocksize)
+        if self.total > 0:
+            length = int((desc/self.total)*30)
+            percentage = float(desc/self.total*100)
+        self.speed = self.transferRate(blocksize)
+        speedShow, self.speedType = self.dataSize(self.speed)
+        size, currentType = self.dataSize(desc)
+        progress = self.progressBar(length)
+
+        if percentage > 100:
+            percentage = 100
+            size = self.totalsize
+        elif percentage == 100 and self.totalsize < 0:
+            self.totalsize = size
+        p1 = " %.2f %%" % (percentage)
+        p2 = " %s" % (progress)
+        p3 = " %.2f %s / %.2f %s %.2f %s/s   " % (
+            size, currentType, self.totalsize, self.sizeType, speedShow, self.speedType
+        )
+        sys.stderr.write("\r" +
+            p1 + Fore.GREEN + p2 + Style.RESET_ALL + p3 + Style.RESET_ALL
+        )
+        sys.stderr.flush()
 
 # ================================Space separated name amendment==========
 
@@ -161,18 +170,16 @@ argv = sys.argv
 soft = argv[0].split('.')[-1]
 argv = argv[1:]
 url = ''
-name = 'default'
 opts = ''
 args = ''
-rate = 0
-speed = 0
-transferData = 0
-totalsize = 0
-speedType = ''
-sizeType = ''
-flag = 0
+name = 'default'
 conf = ''
 err = ''
+presentTime=time()
+output = ''
+System = ''
+FNAME = ''
+info = ''
 path = "C:\\Users\\" + getuser() + "\\Downloads\\getit\\"
 output, err = Commands(path, 'cd', True)
 if err !='':
@@ -185,14 +192,14 @@ try:
     opts, args = getopt(
         argv, "hd:p:f:", ["help", "url=", "path=",  "filename="])
 except GetoptError as err:
-    usage()
+    getit().usage()
     print(Fore.RED + str(err))
     sys.exit(2)
 
 # ================================Read the CLI Input======================
 for opt, arg in opts:
     if opt in ("-h", "--help"):
-        usage()
+        getit().usage()
         sys.exit()
     elif opt in ("-d", "--url"):
         url = arg
@@ -202,76 +209,96 @@ for opt, arg in opts:
     elif opt in ("-f", "--filename"):
         name = arg
     else:
-        usage()
+        getit().usage()
         sys.exit(2)
 if url == '':
     sys.stderr.write(
-        Fore.GREEN + "? " + Style.RESET_ALL + "Enter the Download-Url : ")
+        Fore.GREEN + "? " + Style.RESET_ALL + "Enter the Download-Url : "
+    )
     url = input()
     print(Fore.GREEN + "? " + Style.RESET_ALL +
-          "URL : " + Fore.CYAN + url + Style.RESET_ALL)
+        "URL : " + Fore.CYAN + url + Style.RESET_ALL
+    )
 if name == 'default':
     sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL +
-                     "File Name with extension : " + Fore.YELLOW + "(default) " + Style.RESET_ALL)
+        "File Name with extension : " + Fore.YELLOW + "(default) " + Style.RESET_ALL
+    )
     name = input()
     if name == '':
         name = 'default'
     print(Fore.GREEN + "? " + Style.RESET_ALL +
-          "Filename : " + Fore.CYAN + name + Style.RESET_ALL)
+        "Filename : " + Fore.CYAN + name + Style.RESET_ALL
+    )
 if path == "C:\\Users\\" + getuser() + "\Downloads\getit\\":
     sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL +
-                     "File Path : " + Fore.YELLOW + "(" + path + ") " + Style.RESET_ALL)
+        "File Path : " + Fore.YELLOW + "(" + path + ") " + Style.RESET_ALL
+    )
     path = input()
     if path == '':
         path = "C:\\Users\\" + getuser() + "\Downloads\getit\\"
     print(Fore.GREEN + "? " + Style.RESET_ALL +
-          "Path : " + Fore.CYAN + path + Style.RESET_ALL)
+        "Path : " + Fore.CYAN + path + Style.RESET_ALL
+    )
     path = pathCheck(path)
+
+conf, err = Commands('', 'which', True)
+if err!='':
+    System = 'where'
+    FNAME = ' getit.exe'
+else:
+    System = 'which'
+    FNAME = ' getit'
+output, err = Commands(path+name, "dir", True)
+if err == '':
+    sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL + Fore.RED +
+        "File already exists, overwrite?"+ Fore.CYAN + " [Y/N] : " + Style.RESET_ALL
+    )
+    if input().upper() == 'Y':
+        print(Fore.RED +
+            "\n\tAborted...!" + Style.RESET_ALL
+        )
+        sys.exit(2)
 
 
 # ================================Download the file=======================
 try:
     name = nameAmend(name)
-    print("Collecting " + name)
+    print("\nCollecting " + name)
     print("\tDownloading... ")
-
     with open(path+name, 'wb') as out_file:
         with urlopen(url) as fp:
-            x = int(fp.info()['Content-Length'])
+            info = fp.info()
+            if 'Content-Length' in info:
+                x = int(info['Content-Length'])
+            else:
+                x = -1
             i=1
             block_size = 1024 * 8
+            ob = getit(x)
             while True:
                 block = fp.read(block_size)
-                reporthook(i,block_size,x)
+                ob.reporthook(i,block_size)
                 i+=1
                 if not block:
                     break
                 out_file.write(block)
 
-    # urlretrieve(url, path+name, reporthook)
     print("\n")
     print("Successfully download " + name)
     config = configparser.ConfigParser()
     if soft == "py":
         conf = 'config.cfg'
     else:
-        conf, err = Commands('', 'which', True)
-        if err!='':
-            conf, err = Commands('', 'where getit.exe', True)
-            conf = conf.split('\\')
-            conf = conf[:-2]
-            conf = '\\'.join(conf)
-            conf+='\\config.cfg'
-        else:
-            conf, err = Commands('', 'which getit', True)
-            conf = conf.split('\\')
-            conf = conf[:-2]
-            conf = '\\'.join(conf)
-            conf+='\\config.cfg'
+        conf, err = Commands('', System + FNAME , True)
+        conf = conf.split('\\')
+        conf = conf[:-2]
+        conf = '\\'.join(conf)
+        conf+='\\config.cfg'
     try:
         sys.stdout.write("\a")
     except:
         pass
+    print("\t Time Taken : %.2f sec" %(time()-presentTime))
     config.read(conf)
     if config.getboolean('config-default', 'folder_open_on_download_complete'):
         Commands(path, 'start')
