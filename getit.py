@@ -253,7 +253,7 @@ if err == '':
     sys.stderr.write(Fore.GREEN + "? " + Style.RESET_ALL + Fore.RED +
         "File already exists, overwrite?"+ Fore.CYAN + " [Y/N] : " + Style.RESET_ALL
     )
-    if input().upper() == 'Y':
+    if input().upper() == 'N':
         print(Fore.RED +
             "\n\tAborted...!" + Style.RESET_ALL
         )
