@@ -140,7 +140,11 @@ def nameAmend(name):
 # ================================Path Check==============================
 def Commands(path, cmd, callback=False):
     try:
-        path = cmd + " " + path
+        if path != "" and cmd != "start":
+            path = cmd + " \"" + path + "\""
+        else:
+            path = cmd + " " + path
+
         output, err = subprocess.Popen(path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
         if callback != False:
             if err!=None:
