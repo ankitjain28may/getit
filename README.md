@@ -1,6 +1,6 @@
 # getit
-[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://badge.fury.io/py/getit)
-[![PyPI](https://img.shields.io/pypi/dm/Django.svg)](https://pypi.python.org/pypi/getit)
+[![PyPI](https://img.shields.io/pypi/v/getit.svg)](https://pypi.python.org/pypi/getit)
+[![PyPI](https://img.shields.io/pypi/dm/getit.svg)](https://pypi.python.org/pypi/getit)
 
 A cross platform CLI downloader tool written in python 3
 
