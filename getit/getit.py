@@ -49,9 +49,9 @@ class getit:
 
     def progressBar(self,length):
         show = ''
-        for i in range(length):
+        for _ in range(length):
             show += "#"
-        for j in range(30-length):
+        for _ in range(30-length):
             show += "-"
         show = "|"+show+"|"
         if length != 30:
@@ -153,14 +153,14 @@ def Commands(path, cmd, callback=False):
                 output = output.decode('utf-8')
             return output, err
     except Exception as e:
-        usage()
+        getit(0).usage()
         print(Fore.RED + str(e))
         sys.exit(2)
 
 def pathCheck(path):
     output, err = Commands(path, 'cd', True)
     if err!= '':
-        usage()
+        getit(0).usage()
         print(Fore.RED + err)
         sys.exit(2)
     elif path[len(path)-1] != '\\':
