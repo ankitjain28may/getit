@@ -1,39 +1,55 @@
 # getit
+[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://badge.fury.io/py/getit)
+[![PyPI](https://img.shields.io/pypi/dm/Django.svg)](https://pypi.python.org/pypi/getit)
+
 A cross platform CLI downloader tool written in python 3
 
-##Installations
-1- Install python 3.5 from [Python.org](https://www.python.org)
+Installation
+============
 
-2- `sudo apt-get install python3-pip` (For Ubuntu Users)
+* Using `pip`
 
-3- Install urllib `pip install urllib`
+    ```shell
+    $ pip install getit
+    ```
 
-4- Install colorama `pip install colorama`
+* From source
 
-After the installation, open terminal at the root folder--
+    ```shell
+    $ git clone https://github.com/ankitjain28may/getit
+    $ cd getit
+    $ python setup.py install
+    ```
+* For Setting Extra Utilities like Open File and Folder after the Download Completes..
 
-Run `python getit.py` to download from CLI.
+    1- Get the path of the getit using `where` for linux users and `which` for window users.
 
-OR
+    2- Copy the directory path where getit is present.
 
-Download the exe file from the dist folder [getit.exe](https://github.com/ankitjain28may/getit/tree/master/dist) and put its path in the environment variable to directly use it from CLI
+    3- copy the file from `https://raw.githubusercontent.com/ankitjain28may/getit/master/config.cfg` to `Directory_Path\config.cfg`.
 
-##Usage from CLI
+    4- Set `True` or `False` according to your choice.
+
+
+    ```shell
+    $ where getit
+    $ Directory_path/getit
+    $ getit -d https://raw.githubusercontent.com/ankitjain28may/getit/master/config.cfg -p Directory_Path -f config.cfg
+    ```
+
+
+Usage
+======
 
 ` getit -d <download url> -p <path> -f <filename with extension> `
 
 ` getit -h <help> `
 
-OR
-
-` python getit.py -d <download url> -p <path> -f <filename with extension> `
-
-` python getit.py -h <help> `
-
 
 Note : File is downloaded in the Downloads/getit/ folder by default
 
-##License
+License
+========
 
 Copyright (c) 2016 Ankit Jain - Released under MIT License
 
