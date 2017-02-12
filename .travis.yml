@@ -1,0 +1,18 @@
+language:
+  python
+python:
+  - 3.3
+  - 3.4
+  - 3.5
+
+install:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+  - pip install flake8
+  - pip install coveralls
+
+script:
+  - flake8 getit
+
+after_success:
+  coveralls
