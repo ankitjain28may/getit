@@ -1,5 +1,8 @@
 getit
 =====
+
+.. image:: https://travis-ci.org/ankitjain28may/getit.svg?branch=master
+   :target: https://travis-ci.org/ankitjain28may/getit
 .. image:: https://img.shields.io/pypi/v/getit.svg
    :target: https://pypi.python.org/pypi/getit
 .. image:: https://img.shields.io/pypi/dm/getit.svg
@@ -62,4 +65,3 @@ Copyright (c) 2016 Ankit Jain - Released under MIT License
 
 P.S For more python scripts Go To ->
 `pythonResources <https://github.com/ankitjain28may/pythonResources>`__
-

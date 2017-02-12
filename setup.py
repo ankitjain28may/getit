@@ -5,7 +5,7 @@ import sys  # noqa
 
 setup(
     name='getit',
-    version='2.1',
+    version='2.2',
     description='A cross platform CLI downloader tool written in python.',
     long_description=open('README.rst').read(),
     author='Ankit Jain',
