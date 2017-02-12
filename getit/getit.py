@@ -146,10 +146,10 @@ def Commands(path, cmd, callback=False):
             path = cmd + " " + path
 
         output, err = subprocess.Popen(path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
-        if callback != False:
-            if err!=None:
+        if callback is not False:
+            if err is not None:
                 err = err.decode('utf-8')
-            if output!=None:
+            if output is not None:
                 output = output.decode('utf-8')
             return output, err
     except Exception as e:
@@ -158,8 +158,8 @@ def Commands(path, cmd, callback=False):
         sys.exit(2)
 
 def pathCheck(path):
-    output, err = Commands(path, 'cd', True)
-    if err!= '':
+    _, err = Commands(path, 'cd', True)
+    if err != '':
         getit(0).usage()
         print(Fore.RED + err)
         sys.exit(2)
@@ -175,7 +175,6 @@ def main():
     argv = argv[1:]
     url = ''
     opts = ''
-    args = ''
     name = 'default'
     conf = ''
     err = ''
@@ -192,7 +191,7 @@ def main():
 
     # ================================Command Line Input======================
     try:
-        opts, args = getopt(
+        opts, _ = getopt(
             argv, "hd:p:f:", ["help", "url=", "path=",  "filename="])
     except GetoptError as err:
         getit(0).usage()
@@ -302,7 +301,7 @@ def main():
             conf += '\\config.cfg'
         try:
             sys.stdout.write("\a")
-        except:
+        except Exception:
             pass
         print("\t Time Taken : %.2f sec" %(time() - presentTime))
         config.read(conf)
