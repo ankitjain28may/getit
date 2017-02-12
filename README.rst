@@ -1,7 +1,7 @@
 getit
 =====
 
-|PyPI| |PyPI|
+|PyPI| |PyPI| |Code Health|
 
 A cross platform CLI downloader tool written in python 3
 
@@ -63,3 +63,5 @@ P.S For more python scripts Go To ->
    :target: https://pypi.python.org/pypi/getit
 .. |PyPI| image:: https://img.shields.io/pypi/dm/getit.svg
    :target: https://pypi.python.org/pypi/getit
+.. |Code Health| image:: https://landscape.io/github/ankitjain28may/getit/master/landscape.svg?style=flat-square
+   :target: https://landscape.io/github/ankitjain28may/getit/master

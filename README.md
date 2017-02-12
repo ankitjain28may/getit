@@ -1,6 +1,7 @@
 # getit
 [![PyPI](https://img.shields.io/pypi/v/getit.svg)](https://pypi.python.org/pypi/getit)
 [![PyPI](https://img.shields.io/pypi/dm/getit.svg)](https://pypi.python.org/pypi/getit)
+[![Code Health](https://landscape.io/github/ankitjain28may/getit/master/landscape.svg?style=flat-square)](https://landscape.io/github/ankitjain28may/getit/master)
 
 A cross platform CLI downloader tool written in python 3
 
