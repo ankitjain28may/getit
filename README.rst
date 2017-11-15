@@ -5,12 +5,10 @@ getit
    :target: https://travis-ci.org/ankitjain28may/getit
 .. image:: https://img.shields.io/pypi/v/getit.svg
    :target: https://pypi.python.org/pypi/getit
-.. image:: https://img.shields.io/pypi/dm/getit.svg
-   :target: https://pypi.python.org/pypi/getit
 .. image:: https://landscape.io/github/ankitjain28may/getit/master/landscape.svg?style=flat-square
    :target: https://landscape.io/github/ankitjain28may/getit/master
 
-A cross platform CLI downloader tool written in python 3
+A cross platform CLI downloader tool written in python
 
 Installation
 ============

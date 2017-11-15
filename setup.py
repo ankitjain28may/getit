@@ -5,7 +5,7 @@ import sys  # noqa
 
 setup(
     name='getit',
-    version='2.2',
+    version='3.0',
     description='A cross platform CLI downloader tool written in python.',
     long_description=open('README.rst').read(),
     author='Ankit Jain',
@@ -18,6 +18,7 @@ setup(
         'Natural Language :: English',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
@@ -30,7 +31,8 @@ setup(
     install_requires=[
         'configparser>=3.5.0',
         'requests==2.10.0',
-        'colorama>=0.3.7'
+        'colorama>=0.3.7',
+        'future==0.16.0'
     ],
     entry_points={
         'console_scripts': [
