@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import division
 import configparser
 import subprocess
 import sys
@@ -5,7 +7,12 @@ import platform
 from getopt import GetoptError, getopt
 from getpass import getuser
 from time import time
-from urllib.request import urlopen
+from contextlib import closing
+from builtins import input
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 
 from colorama import Fore, Style, init
 init()
@@ -304,7 +311,7 @@ def main():
         print("\nCollecting " + name)
         print("\tDownloading... ")
         with open(path + name, 'wb') as out_file:
-            with urlopen(url) as fp:
+            with closing(urlopen(url)) as fp:
                 info = fp.info()
                 if 'Content-Length' in info:
                     x = int(info['Content-Length'])
