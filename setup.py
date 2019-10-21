@@ -30,7 +30,7 @@ setup(
     packages=['getit'],
     install_requires=[
         'configparser>=3.5.0',
-        'requests==2.10.0',
+        'requests==2.20.0',
         'colorama>=0.3.7',
         'future==0.16.0'
     ],
