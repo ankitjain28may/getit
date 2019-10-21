@@ -1,4 +1,4 @@
 colorama>=0.3.7
-requests==2.10.0
+requests==2.20.0
 configparser>=3.5.0
 future==0.16.0
